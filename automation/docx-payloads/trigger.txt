@@ -1,0 +1,1 @@
+Trigger robust Python DOCX materialization for T06-T10 Member guides.
