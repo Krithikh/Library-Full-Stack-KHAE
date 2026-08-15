@@ -1,0 +1,46 @@
+name: Materialize Student Guide Payloads
+
+on:
+  push:
+    branches: [ Student-Guides ]
+    paths:
+      - 'automation/docx-payloads/**'
+      - '.github/workflows/materialize-student-guide-payloads.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Student-Guides
+        uses: actions/checkout@v4
+        with:
+          ref: Student-Guides
+          fetch-depth: 0
+
+      - name: Decode and extract DOCX payloads
+        shell: bash
+        run: |
+          set -euo pipefail
+          while IFS= read -r -d '' f; do
+            zipfile="/tmp/$(basename "${f%.b64}")"
+            base64 -d "$f" > "$zipfile"
+            unzip -o "$zipfile" -d .
+          done < <(find automation/docx-payloads -type f -name '*.zip.b64' -print0)
+
+      - name: Commit materialized student guides
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "KHAE Course Automation"
+          git config user.email "actions@users.noreply.github.com"
+          git add Documents/Student-Guides
+          git rm -r automation/docx-payloads
+          if git diff --cached --quiet; then
+            echo "No guide changes to commit."
+            exit 0
+          fi
+          git commit -m "GUIDES-T06-T10: add Member Initial, Progressive and Updated DOCX guides [skip ci]"
+          git push origin HEAD:Student-Guides
