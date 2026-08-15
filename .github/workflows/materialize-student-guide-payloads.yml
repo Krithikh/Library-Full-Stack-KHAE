@@ -6,6 +6,7 @@ on:
     paths:
       - 'automation/docx-payloads/**'
       - '.github/workflows/materialize-student-guide-payloads.yml'
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -39,7 +40,9 @@ jobs:
               data = base64.b64decode(text, validate=True)
               print(f'Extracting {payload} ({len(data)} decoded bytes)')
               with zipfile.ZipFile(io.BytesIO(data)) as archive:
-                  archive.testzip()
+                  bad = archive.testzip()
+                  if bad:
+                      raise SystemExit(f'Corrupt ZIP member: {bad}')
                   archive.extractall('.')
           PY
 
@@ -55,5 +58,5 @@ jobs:
             echo "No guide changes to commit."
             exit 0
           fi
-          git commit -m "GUIDES-T06-T10: add Member Initial, Progressive and Updated DOCX guides [skip ci]"
+          git commit -m "GUIDES: materialize student guide DOCX payloads [skip ci]"
           git push origin HEAD:Student-Guides
