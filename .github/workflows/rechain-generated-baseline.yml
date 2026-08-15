@@ -42,7 +42,6 @@ jobs:
           echo "Previous shared guide base: $COMMON"
 
           git diff --binary "$COMMON" "$BASE" > /tmp/generated-code.patch
-
           git checkout -B regenerated-baseline "$GUIDES"
 
           if [ -s /tmp/generated-code.patch ]; then
