@@ -24,11 +24,24 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          while IFS= read -r -d '' f; do
-            zipfile="/tmp/$(basename "${f%.b64}")"
-            base64 -d "$f" > "$zipfile"
-            unzip -o "$zipfile" -d .
-          done < <(find automation/docx-payloads -type f -name '*.zip.b64' -print0)
+          python - <<'PY'
+          from pathlib import Path
+          import base64
+          import io
+          import zipfile
+
+          payloads = sorted(Path('automation/docx-payloads').rglob('*.zip.b64'))
+          if not payloads:
+              raise SystemExit('No DOCX payload files found')
+
+          for payload in payloads:
+              text = ''.join(payload.read_text(encoding='utf-8').split())
+              data = base64.b64decode(text, validate=True)
+              print(f'Extracting {payload} ({len(data)} decoded bytes)')
+              with zipfile.ZipFile(io.BytesIO(data)) as archive:
+                  archive.testzip()
+                  archive.extractall('.')
+          PY
 
       - name: Commit materialized student guides
         shell: bash
