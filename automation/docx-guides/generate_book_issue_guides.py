@@ -350,7 +350,7 @@ def build_initial(tid, d):
     doc.add_heading("3. Book Issue Fields",1)
     add_table(doc, [("bookIssueId","Database identifier; response only."),("issueNumber","Business key such as ISS-0001."),("membershipId","Membership that borrows the copy."),("bookCopyId","Physical Book Copy identifier."),("reservationId","Optional Reservation identifier."),("issueDate","Issue date."),("dueDate","Expected return date."),("status","ACTIVE, RETURNED or CANCELLED.")])
     doc.add_heading("4. Training Data",1)
-    add_table(doc, [("Issue 1","ISS-0001 / ACTIVE"),("Issue 2","ISS-0002 / RETURNED / Return RET-0001 COMPLETED"),("Issue 3","ISS-0003 / RETURNED / Return RET-0002 VOID"),("Issue 4","ISS-0004 / CANCELLED"),("Issue 5","ISS-0005 / ACTIVE / Return RET-0003 COMPLETED - controlled intermediate workflow state")])
+    add_table(doc, [("Issue 1","ISS-0001 / ACTIVE"),("Issue 2","ISS-0002 / RETURNED / Return RET-0001 COMPLETED"),("Issue 3","ISS-0003 / RETURNED / Return RET-0002 VOID"),("Issue 4","ISS-0004 / CANCELLED"),("Issue 5","ISS-0005 / ACTIVE / Return RET-0003 COMPLETED")])
     doc.add_heading("5. Ownership",1)
     add_table(doc, [("Presenter","REST Controller, DTOs, DO, Mapper, DAO base, Flyway, JSON envelope and Thymeleaf framework."),("Student",f"{d['impl']}, track Unit/Integration Tests and {d['frontend']}.")])
     note(doc, "Delete for Book Issue means Cancel. The row remains in PostgreSQL and its status becomes CANCELLED.")
@@ -447,7 +447,7 @@ FROM tbl_book_return
 ORDER BY book_return_id;''')
     doc.add_paragraph(d["integration"])
     if tid == "T44":
-        note(doc, "ISS-0005 is a controlled intermediate workflow state: the Return is already persisted while the Issue status update is still pending. The dependency guard prevents cancellation after a Return exists.")
+        note(doc, "ISS-0005 shows an intermediate workflow state: the Return is already persisted while the Issue status update is still pending. The dependency guard prevents cancellation after a Return exists.")
 
     doc.add_heading("10. Complete Local PostgreSQL Integration Test",1)
     add_code(doc, INTEGRATION[tid])
