@@ -1,0 +1,57 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Reservation List</title>
+  <link rel="stylesheet" th:href="@{/css/library.css}">
+</head>
+<body>
+<div class="top"><a th:href="@{/library}">Library Home</a></div>
+<div class="wrap">
+  <h1>Reservation CRUD + Search</h1>
+  <p class="muted">Presenter-owned Thymeleaf page. Search behavior is supplied by the student SearchReservationService implementation.</p>
+
+  <div class="actions">
+    <a class="btn" th:href="@{/library/reservations/new}">Create Reservation</a>
+  </div>
+
+  <form method="get" th:action="@{/library/reservations/search}" class="search-form">
+    <label for="text">Search by Reservation Number</label>
+    <input id="text" name="text" th:value="${searchText}" placeholder="RES-0001">
+    <button class="btn" type="submit">Search</button>
+    <a class="btn" th:href="@{/library/reservations}">Clear</a>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Reservation Number</th>
+        <th>Membership ID</th>
+        <th>Book ID</th>
+        <th>Reserved Date</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="item : ${records}">
+        <td th:text="${item.reservationId}"></td>
+        <td th:text="${item.reservationNumber}"></td>
+        <td th:text="${item.membershipId}"></td>
+        <td th:text="${item.bookId}"></td>
+        <td th:text="${item.reservedDate}"></td>
+        <td th:text="${item.status}"></td>
+        <td>
+          <a class="btn" th:href="@{/library/reservations/{id}(id=${item.reservationId})}">Read</a>
+          <a class="btn" th:if="${item.status == 'ACTIVE'}" th:href="@{/library/reservations/{id}/edit(id=${item.reservationId})}">Update</a>
+          <form th:if="${item.status == 'ACTIVE'}" method="post" th:action="@{/library/reservations/{id}/delete(id=${item.reservationId})}" style="display:inline">
+            <button class="btn" type="submit">Cancel Reservation</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

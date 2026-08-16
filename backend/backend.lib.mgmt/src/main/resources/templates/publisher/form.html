@@ -1,0 +1,33 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${pageTitle}">Publisher Form</title>
+  <link rel="stylesheet" th:href="@{/css/library.css}">
+</head>
+<body>
+<div class="top"><a th:href="@{/library/publishers}">Publisher List</a></div>
+<div class="wrap">
+  <h1 th:text="${pageTitle}">Publisher Form</h1>
+  <p class="muted">This server-rendered form invokes the same student service used by the REST API.</p>
+  <div class="notice" th:if="${message != null}" th:text="${message}"></div>
+
+  <form method="post"
+        th:object="${form}"
+        th:action="${mode == 'edit'} ? @{/library/publishers/{id}/edit(id=${publisherId})} : @{/library/publishers}">
+    <div>
+      <label for="publisherCode">Publisher Code</label>
+      <input id="publisherCode" th:field="*{publisherCode}" placeholder="PUB-PRENTICE">
+    </div>
+    <div>
+      <label for="publisherName">Publisher Name</label>
+      <input id="publisherName" th:field="*{publisherName}" placeholder="Prentice Hall">
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit" th:text="${mode == 'edit'} ? 'Update Publisher' : 'Create Publisher'">Save</button>
+      <a class="btn" th:href="@{/library/publishers}">Cancel</a>
+    </div>
+  </form>
+</div>
+</body>
+</html>

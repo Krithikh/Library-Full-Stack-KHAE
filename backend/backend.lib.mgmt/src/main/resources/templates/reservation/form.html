@@ -1,0 +1,49 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${pageTitle}">Reservation Form</title>
+  <link rel="stylesheet" th:href="@{/css/library.css}">
+</head>
+<body>
+<div class="top"><a th:href="@{/library/reservations}">Reservation List</a></div>
+<div class="wrap">
+  <h1 th:text="${pageTitle}">Reservation Form</h1>
+  <p class="muted">This Presenter-owned server-rendered form invokes the same student service used by the REST API.</p>
+  <div class="notice" th:if="${message != null}" th:text="${message}"></div>
+
+  <form method="post"
+        th:object="${form}"
+        th:action="${mode == 'edit'} ? @{/library/reservations/{id}/edit(id=${reservationId})} : @{/library/reservations}">
+    <div>
+      <label for="reservationNumber">Reservation Number</label>
+      <input id="reservationNumber" th:field="*{reservationNumber}" placeholder="RES-0001">
+    </div>
+    <div>
+      <label for="membershipId">Membership ID</label>
+      <input id="membershipId" type="number" th:field="*{membershipId}">
+    </div>
+    <div>
+      <label for="bookId">Book ID</label>
+      <input id="bookId" type="number" th:field="*{bookId}">
+    </div>
+    <div>
+      <label for="reservedDate">Reserved Date</label>
+      <input id="reservedDate" type="date" th:field="*{reservedDate}">
+    </div>
+    <div>
+      <label for="status">Status</label>
+      <select id="status" th:field="*{status}">
+        <option value="ACTIVE">ACTIVE</option>
+        <option value="CANCELLED">CANCELLED</option>
+        <option value="FULFILLED">FULFILLED</option>
+      </select>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit" th:text="${mode == 'edit'} ? 'Update Reservation' : 'Create Reservation'">Save</button>
+      <a class="btn" th:href="@{/library/reservations}">Cancel</a>
+    </div>
+  </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+{
+  "contractVersion": "LIBRARY-FULLSTACK-V1",
+  "applicationHttpStatus": 200,
+  "responseEnvelope": {"fields": ["serviceCode", "responseCode", "message", "data"]},
+  "responseCodes": {
+    "00": "Success",
+    "01": "Invalid or required input",
+    "02": "Record not found",
+    "03": "Duplicate business value",
+    "04": "Inactive or invalid state",
+    "05": "Persisted dependency exists"
+  },
+  "department": {
+    "T01": {"serviceCode": "01", "operation": "Create", "endpoint": "POST /rest/departments"},
+    "T02": {"serviceCode": "02", "operation": "Read", "endpoint": "GET /rest/departments/{id}"},
+    "T03": {"serviceCode": "03", "operation": "Update", "endpoint": "PUT /rest/departments/{id}"},
+    "T04": {"serviceCode": "04", "operation": "Deactivate", "endpoint": "DELETE /rest/departments/{id}"},
+    "T05": {"serviceCode": "05", "operation": "Search", "endpoint": "GET /rest/departments/search?text={text}"},
+    "PresenterSupport": {"serviceCode": "P01", "operation": "List", "endpoint": "GET /rest/departments"}
+  },
+  "frontendTransportErrors": {
+    "404": "NOT Found",
+    "otherNon200": "Error Encountered, Please contact Administrator"
+  },
+  "notes": [
+    "REST Controllers and URLs are Presenter-owned.",
+    "P-prefixed service codes identify Presenter-owned support endpoints and do not consume Student service codes 01-60.",
+    "Application response codes are carried inside HTTP 200 responses.",
+    "Search with a valid query and no matches is a successful response with an empty data list.",
+    "This is the machine-readable freeze; the Word documents explain the same contract."
+  ]
+}

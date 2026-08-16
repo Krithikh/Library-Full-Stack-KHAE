@@ -1,0 +1,8 @@
+<!doctype html><html xmlns:th="http://www.thymeleaf.org"><head><meta charset="UTF-8"><title th:text="${moduleName} + ' List'">List</title><link rel="stylesheet" th:href="@{/css/library.css}"></head>
+<body><div class="top"><a th:href="@{/library}">Library Home</a></div><div class="wrap"><h1 th:text="${moduleName} + ' List'">List</h1>
+<p class="muted">Presenter-owned list page backed by the real database.</p>
+<table><thead><tr><th>#</th><th>Record</th><th>Action</th></tr></thead><tbody>
+<tr th:each="item,stat : ${records}"><td th:text="${stat.count}">1</td><td><pre th:text="${item}">Record</pre></td><td><a class="btn" th:href="${detailBase + #strings.toString(item.getClass().getMethod('toString'))}">View</a></td></tr>
+</tbody></table>
+<p class="notice">Use the module-specific detail links from the Vite API Explorer or enter an ID directly in the URL if the generic list link cannot infer the identifier.</p>
+</div></body></html>

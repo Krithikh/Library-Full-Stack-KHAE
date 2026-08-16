@@ -1,0 +1,39 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Category - Thymeleaf</title>
+  <link rel="stylesheet" th:href="@{/css/library.css}">
+</head>
+<body>
+<div class="top"><a th:href="@{/library}">Library Home</a></div>
+<div class="wrap">
+  <h1>Category - Thymeleaf</h1>
+  <p class="muted">Presenter-owned Spring MVC page. Search behavior is supplied by Student 20 through SearchCategoryService.</p>
+  <p><a class="btn" th:href="@{/library/categories/new}">Create Category</a></p>
+  <form method="get" th:action="@{/library/categories/search}">
+    <input name="text" th:value="${searchText}" placeholder="Category code or name" required>
+    <button type="submit">Search</button>
+    <a th:href="@{/library/categories}">Clear</a>
+  </form>
+  <table>
+    <thead><tr><th>ID</th><th>Code</th><th>Name</th><th>Active</th><th>Actions</th></tr></thead>
+    <tbody>
+      <tr th:each="item : ${categories}">
+        <td th:text="${item.categoryId}"></td>
+        <td th:text="${item.categoryCode}"></td>
+        <td th:text="${item.categoryName}"></td>
+        <td th:text="${item.active}"></td>
+        <td>
+          <a class="btn" th:href="@{/library/categories/{id}(id=${item.categoryId})}">Read</a>
+          <a class="btn" th:href="@{/library/categories/{id}/edit(id=${item.categoryId})}">Update</a>
+          <form th:action="@{/library/categories/{id}/delete(id=${item.categoryId})}" method="post" style="display:inline">
+            <button type="submit">Deactivate</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

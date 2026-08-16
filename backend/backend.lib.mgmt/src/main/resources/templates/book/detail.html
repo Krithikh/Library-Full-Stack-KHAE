@@ -1,0 +1,35 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Book Detail</title>
+  <link rel="stylesheet" th:href="@{/css/library.css}">
+</head>
+<body>
+<div class="top"><a th:href="@{/library/books}">Book List</a></div>
+<div class="wrap">
+  <h1>Book - Read by ID</h1>
+  <div class="notice" th:if="${message != null}" th:text="${message}"></div>
+  <div th:if="${record == null}" class="notice">No record was found for this ID.</div>
+
+  <div th:if="${record != null}">
+    <dl class="record">
+      <dt>Book ID</dt><dd th:text="${record.bookId}"></dd>
+      <dt>ISBN</dt><dd th:text="${record.isbn}"></dd>
+      <dt>Title</dt><dd th:text="${record.title}"></dd>
+      <dt>Author ID</dt><dd th:text="${record.authorId}"></dd>
+      <dt>Category ID</dt><dd th:text="${record.categoryId}"></dd>
+      <dt>Publisher ID</dt><dd th:text="${record.publisherId}"></dd>
+      <dt>Active</dt><dd th:text="${record.active}"></dd>
+    </dl>
+
+    <div class="actions">
+      <a class="btn" th:href="@{/library/books/{id}/edit(id=${record.bookId})}">Update</a>
+      <form th:if="${record.active}" method="post" th:action="@{/library/books/{id}/delete(id=${record.bookId})}" style="display:inline">
+        <button class="btn" type="submit">Deactivate</button>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

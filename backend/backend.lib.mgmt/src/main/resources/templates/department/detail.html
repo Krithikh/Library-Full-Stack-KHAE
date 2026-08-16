@@ -1,0 +1,6 @@
+<!doctype html><html xmlns:th="http://www.thymeleaf.org"><head><meta charset="UTF-8"><title>Department Detail</title><link rel="stylesheet" th:href="@{/css/library.css}"></head>
+<body><div class="top"><a th:href="@{/library/departments}">Department List</a></div><div class="wrap"><h1>Department - Read by ID</h1>
+<div th:if="${record == null}" class="notice">No record was found for this ID.</div><dl th:if="${record != null}" class="record"><dt>DepartmentId</dt><dd th:text="${record.departmentId}"></dd>
+<dt>DepartmentCode</dt><dd th:text="${record.departmentCode}"></dd>
+<dt>DepartmentName</dt><dd th:text="${record.departmentName}"></dd>
+<dt>Active</dt><dd th:text="${record.active}"></dd></dl></div></body></html>

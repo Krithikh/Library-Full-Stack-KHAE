@@ -1,0 +1,14 @@
+T01-T60 FROZEN BASELINE
+
+Frozen baseline commit lineage is established after the T01-T60 consistency audit.
+
+Freeze conditions satisfied:
+- Student-Guides: all 60 tracks / 180 DOCX guide files.
+- REST service codes 01-60 and Presenter list codes P01-P12 verified.
+- Presenter Thymeleaf ownership verified and audit corrections applied.
+- V007 final aggregate training-data alignment applied.
+- TrainingDataContractTest protects deterministic guide scenarios.
+- Student service implementations remain STUB-only; no final Presenter algorithms are present.
+- Verify Student Baseline run 90 passed backend PostgreSQL/Flyway/Spring Boot tests and Vite frontend build.
+
+The next layer is Presenter-Solutions-T01-T05 and later successive Presenter solution stages.

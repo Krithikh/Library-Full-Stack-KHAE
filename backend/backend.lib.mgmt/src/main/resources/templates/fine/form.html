@@ -1,0 +1,52 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${pageTitle}">Fine Form</title>
+  <link rel="stylesheet" th:href="@{/css/library.css}">
+</head>
+<body>
+<div class="top"><a th:href="@{/library/fines}">Fine List</a></div>
+<div class="wrap">
+  <h1 th:text="${pageTitle}">Fine Form</h1>
+  <p class="muted">This Presenter-owned server-rendered form invokes the same student service used by the REST API.</p>
+  <div class="notice" th:if="${message != null}" th:text="${message}"></div>
+
+  <form method="post"
+        th:object="${form}"
+        th:action="${mode == 'edit'} ? @{/library/fines/{id}/edit(id=${fineId})} : @{/library/fines}">
+    <div>
+      <label for="fineNumber">Fine Number</label>
+      <input id="fineNumber" th:field="*{fineNumber}" placeholder="FINE-0003">
+    </div>
+    <div>
+      <label for="bookReturnId">Book Return ID</label>
+      <input id="bookReturnId" type="number" th:field="*{bookReturnId}">
+    </div>
+    <div>
+      <label for="membershipId">Membership ID</label>
+      <input id="membershipId" type="number" th:field="*{membershipId}">
+    </div>
+    <div>
+      <label for="amount">Amount</label>
+      <input id="amount" type="number" step="0.01" th:field="*{amount}">
+    </div>
+    <div>
+      <label for="outstandingAmount">Outstanding Amount</label>
+      <input id="outstandingAmount" type="number" step="0.01" th:field="*{outstandingAmount}">
+    </div>
+    <div>
+      <label for="status">Status</label>
+      <select id="status" th:field="*{status}">
+        <option value="OUTSTANDING">OUTSTANDING</option>
+        <option value="PAID">PAID</option>
+      </select>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit" th:text="${mode == 'edit'} ? 'Update Fine' : 'Create Fine'">Save</button>
+      <a class="btn" th:href="@{/library/fines}">Cancel</a>
+    </div>
+  </form>
+</div>
+</body>
+</html>

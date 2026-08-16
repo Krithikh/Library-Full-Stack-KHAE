@@ -1,0 +1,40 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Authors - Thymeleaf</title>
+  <style>
+    body{font-family:Arial,sans-serif;margin:2rem;max-width:1100px} table{border-collapse:collapse;width:100%;margin-top:1rem} th,td{border:1px solid #ccc;padding:.55rem;text-align:left} .actions{display:flex;gap:.5rem;align-items:center} a,button{padding:.35rem .6rem} .top{display:flex;justify-content:space-between;align-items:center;gap:1rem} form.search{display:flex;gap:.5rem}
+  </style>
+</head>
+<body>
+  <div class="top">
+    <div><h1>Author Management - Thymeleaf</h1><p>Server-rendered Spring MVC page.</p></div>
+    <a th:href="@{/library/authors/new}">Create Author</a>
+  </div>
+  <form class="search" th:action="@{/library/authors/search}" method="get">
+    <input name="text" th:value="${searchText}" placeholder="Author code or name" required>
+    <button type="submit">Search</button>
+    <a th:href="@{/library/authors}">Clear</a>
+  </form>
+  <table>
+    <thead><tr><th>ID</th><th>Code</th><th>Name</th><th>Active</th><th>Actions</th></tr></thead>
+    <tbody>
+      <tr th:each="author : ${authors}">
+        <td th:text="${author.authorId}"></td>
+        <td th:text="${author.authorCode}"></td>
+        <td th:text="${author.authorName}"></td>
+        <td th:text="${author.active}"></td>
+        <td class="actions">
+          <a th:href="@{/library/authors/{id}(id=${author.authorId})}">Read</a>
+          <a th:href="@{/library/authors/{id}/edit(id=${author.authorId})}">Update</a>
+          <form th:action="@{/library/authors/{id}/delete(id=${author.authorId})}" method="post">
+            <button type="submit">Deactivate</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p><a th:href="@{/library}">Back to Library Home</a></p>
+</body>
+</html>

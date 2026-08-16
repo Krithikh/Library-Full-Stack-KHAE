@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Update Member</title></head>
+<body>
+<h1>Update Member - Thymeleaf</h1>
+<p>The current values are loaded by the Presenter view service. Submitting this form calls UpdateMemberService.</p>
+<form th:action="@{/library/members/{id}/edit(id=${memberId})}" th:object="${form}" method="post">
+    <p><label>Registration Number <input th:field="*{registrationNumber}" /></label></p>
+    <p><label>Full Name <input th:field="*{fullName}" /></label></p>
+    <p><label>Email <input th:field="*{email}" /></label></p>
+    <p><label>Department ID <input type="number" th:field="*{departmentId}" /></label></p>
+    <button type="submit">Update Member</button>
+    <a th:href="@{/library/members/{id}(id=${memberId})}">Cancel</a>
+</form>
+</body>
+</html>

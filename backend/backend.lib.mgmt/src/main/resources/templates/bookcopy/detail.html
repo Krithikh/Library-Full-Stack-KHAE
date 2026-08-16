@@ -1,0 +1,32 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Book Copy Detail</title>
+  <link rel="stylesheet" th:href="@{/css/library.css}">
+</head>
+<body>
+<div class="top"><a th:href="@{/library/book-copies}">Book Copy List</a></div>
+<div class="wrap">
+  <h1>Book Copy - Read by ID</h1>
+  <div class="notice" th:if="${message != null}" th:text="${message}"></div>
+  <div th:if="${record == null}" class="notice">No record was found for this ID.</div>
+
+  <div th:if="${record != null}">
+    <dl class="record">
+      <dt>Book Copy ID</dt><dd th:text="${record.bookCopyId}"></dd>
+      <dt>Accession Number</dt><dd th:text="${record.accessionNumber}"></dd>
+      <dt>Book ID</dt><dd th:text="${record.bookId}"></dd>
+      <dt>Status</dt><dd th:text="${record.status}"></dd>
+    </dl>
+
+    <div class="actions" th:if="${record.status != 'WITHDRAWN'}">
+      <a class="btn" th:href="@{/library/book-copies/{id}/edit(id=${record.bookCopyId})}">Update</a>
+      <form method="post" th:action="@{/library/book-copies/{id}/delete(id=${record.bookCopyId})}" style="display:inline">
+        <button class="btn" type="submit">Withdraw</button>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

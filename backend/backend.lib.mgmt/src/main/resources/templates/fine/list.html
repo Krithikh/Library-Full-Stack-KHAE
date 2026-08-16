@@ -1,0 +1,59 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Fine List</title>
+  <link rel="stylesheet" th:href="@{/css/library.css}">
+</head>
+<body>
+<div class="top"><a th:href="@{/library}">Library Home</a></div>
+<div class="wrap">
+  <h1>Fine CRUD + Search</h1>
+  <p class="muted">Presenter-owned Thymeleaf page. Search behavior is supplied by the student SearchFineService implementation.</p>
+
+  <div class="actions">
+    <a class="btn" th:href="@{/library/fines/new}">Create Fine</a>
+  </div>
+
+  <form method="get" th:action="@{/library/fines/search}" class="search-form">
+    <label for="text">Search by Fine Number</label>
+    <input id="text" name="text" th:value="${searchText}" placeholder="FINE-0001">
+    <button class="btn" type="submit">Search</button>
+    <a class="btn" th:href="@{/library/fines}">Clear</a>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Fine Number</th>
+        <th>Return ID</th>
+        <th>Membership ID</th>
+        <th>Amount</th>
+        <th>Outstanding</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="item : ${records}">
+        <td th:text="${item.fineId}"></td>
+        <td th:text="${item.fineNumber}"></td>
+        <td th:text="${item.bookReturnId}"></td>
+        <td th:text="${item.membershipId}"></td>
+        <td th:text="${item.amount}"></td>
+        <td th:text="${item.outstandingAmount}"></td>
+        <td th:text="${item.status}"></td>
+        <td>
+          <a class="btn" th:href="@{/library/fines/{id}(id=${item.fineId})}">Read</a>
+          <a class="btn" th:if="${item.status != 'VOID'}" th:href="@{/library/fines/{id}/edit(id=${item.fineId})}">Update</a>
+          <form th:if="${item.status != 'VOID'}" method="post" th:action="@{/library/fines/{id}/delete(id=${item.fineId})}" style="display:inline">
+            <button class="btn" type="submit">Void Fine</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

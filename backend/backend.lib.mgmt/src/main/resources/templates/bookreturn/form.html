@@ -1,0 +1,44 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${pageTitle}">Book Return Form</title>
+  <link rel="stylesheet" th:href="@{/css/library.css}">
+</head>
+<body>
+<div class="top"><a th:href="@{/library/returns}">Book Return List</a></div>
+<div class="wrap">
+  <h1 th:text="${pageTitle}">Book Return Form</h1>
+  <p class="muted">This Presenter-owned server-rendered form invokes the same student service used by the REST API.</p>
+  <div class="notice" th:if="${message != null}" th:text="${message}"></div>
+
+  <form method="post"
+        th:object="${form}"
+        th:action="${mode == 'edit'} ? @{/library/returns/{id}/edit(id=${bookReturnId})} : @{/library/returns}">
+    <div>
+      <label for="returnNumber">Return Number</label>
+      <input id="returnNumber" th:field="*{returnNumber}" placeholder="RET-0001">
+    </div>
+    <div>
+      <label for="bookIssueId">Book Issue ID</label>
+      <input id="bookIssueId" type="number" th:field="*{bookIssueId}">
+    </div>
+    <div>
+      <label for="returnDate">Return Date</label>
+      <input id="returnDate" type="date" th:field="*{returnDate}">
+    </div>
+    <div>
+      <label for="status">Status</label>
+      <select id="status" th:field="*{status}">
+        <option value="COMPLETED">COMPLETED</option>
+        <option value="VOID">VOID</option>
+      </select>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit" th:text="${mode == 'edit'} ? 'Update Book Return' : 'Create Book Return'">Save</button>
+      <a class="btn" th:href="@{/library/returns}">Cancel</a>
+    </div>
+  </form>
+</div>
+</body>
+</html>

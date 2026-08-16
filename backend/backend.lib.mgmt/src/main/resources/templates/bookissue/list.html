@@ -1,0 +1,61 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Book Issue List</title>
+  <link rel="stylesheet" th:href="@{/css/library.css}">
+</head>
+<body>
+<div class="top"><a th:href="@{/library}">Library Home</a></div>
+<div class="wrap">
+  <h1>Book Issue CRUD + Search</h1>
+  <p class="muted">Presenter-owned Thymeleaf page. Search behavior is supplied by the student SearchBookIssueService implementation.</p>
+
+  <div class="actions">
+    <a class="btn" th:href="@{/library/issues/new}">Create Book Issue</a>
+  </div>
+
+  <form method="get" th:action="@{/library/issues/search}" class="search-form">
+    <label for="text">Search by Issue Number</label>
+    <input id="text" name="text" th:value="${searchText}" placeholder="ISS-0001">
+    <button class="btn" type="submit">Search</button>
+    <a class="btn" th:href="@{/library/issues}">Clear</a>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Issue Number</th>
+        <th>Membership ID</th>
+        <th>Book Copy ID</th>
+        <th>Reservation ID</th>
+        <th>Issue Date</th>
+        <th>Due Date</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="item : ${records}">
+        <td th:text="${item.bookIssueId}"></td>
+        <td th:text="${item.issueNumber}"></td>
+        <td th:text="${item.membershipId}"></td>
+        <td th:text="${item.bookCopyId}"></td>
+        <td th:text="${item.reservationId}"></td>
+        <td th:text="${item.issueDate}"></td>
+        <td th:text="${item.dueDate}"></td>
+        <td th:text="${item.status}"></td>
+        <td>
+          <a class="btn" th:href="@{/library/issues/{id}(id=${item.bookIssueId})}">Read</a>
+          <a class="btn" th:if="${item.status == 'ACTIVE'}" th:href="@{/library/issues/{id}/edit(id=${item.bookIssueId})}">Update</a>
+          <form th:if="${item.status == 'ACTIVE'}" method="post" th:action="@{/library/issues/{id}/delete(id=${item.bookIssueId})}" style="display:inline">
+            <button class="btn" type="submit">Cancel Issue</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>
