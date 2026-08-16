@@ -11,6 +11,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: materialize-book-issue-guides
+  cancel-in-progress: false
+
 jobs:
   generate-and-commit:
     runs-on: ubuntu-latest
@@ -44,4 +48,6 @@ jobs:
             exit 0
           fi
           git commit -m "GUIDES-T41-T45: add Book Issue student guide set [skip guides]"
+          git fetch origin Student-Guides
+          git rebase origin/Student-Guides
           git push origin HEAD:Student-Guides
