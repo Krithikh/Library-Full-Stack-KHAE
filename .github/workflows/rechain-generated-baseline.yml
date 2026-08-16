@@ -32,33 +32,25 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-
           GUIDES="$(git rev-parse HEAD)"
           BASE="$(git rev-parse refs/remotes/origin/Frontend-backend-Baseline)"
           COMMON="$(git merge-base "$GUIDES" "$BASE")"
-
           echo "Latest Student-Guides: $GUIDES"
           echo "Current generated baseline: $BASE"
           echo "Previous shared guide base: $COMMON"
-
           git diff --binary "$COMMON" "$BASE" > /tmp/generated-code.patch
           git checkout -B regenerated-baseline "$GUIDES"
-
           if [ -s /tmp/generated-code.patch ]; then
             git apply --index --3way /tmp/generated-code.patch
           fi
-
           git config user.name "KHAE Course Automation"
           git config user.email "actions@users.noreply.github.com"
-
           if git diff --cached --quiet; then
-            echo "No generated-code delta to replay."
             NEW_HEAD="$GUIDES"
           else
             git commit -m "BASE-RECHAIN: replay generated application on latest Student-Guides"
             NEW_HEAD="$(git rev-parse HEAD)"
           fi
-
           git push --force-with-lease origin "$NEW_HEAD:Frontend-backend-Baseline"
 
-# Touch marker: T41-T45 Book Issue final synchronization
+# Touch marker: T46-T50 Book Return synchronization
