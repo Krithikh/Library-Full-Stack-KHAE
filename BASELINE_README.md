@@ -36,4 +36,6 @@ The Vite dev server proxies `/rest` to the backend, so no browser CORS configura
 
 ## Important baseline rule
 
-No centralized application exception handling is present in this version. Error handling is introduced progressively through the student exercises and updated API contracts.
+Generic presenter-owned application exception handling is present in this accepted baseline so student services can return the standardized controlled response codes used by the exercises. The shared infrastructure covers the agreed controlled-error categories, while students still implement the business validation and error decisions inside their assigned service.
+
+Students must not duplicate or replace the shared exception infrastructure unless the exercise explicitly requires it. Their task is to implement the assigned service behavior against the fixed `/rest/...` contract and the shared error-response mechanism.
