@@ -1,0 +1,41 @@
+name: Error Handling Demo CI
+
+on:
+  push:
+    branches:
+      - ErrorHandling-Demo
+    paths:
+      - 'error-handling-demo/**'
+      - '.github/workflows/error-handling-demo-ci.yml'
+  workflow_dispatch:
+
+jobs:
+  backend-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: error-handling-demo/backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+      - name: Test Spring Boot demo backend
+        run: mvn -B test
+
+  frontend-build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: error-handling-demo/frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install frontend dependencies
+        run: npm install
+      - name: Build Vite demo frontend
+        run: npm run build
