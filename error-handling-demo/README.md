@@ -13,6 +13,7 @@ The demo is intentionally **stub-only**.
 - No datasource configuration
 - No Flyway migrations
 - No persistent in-memory data store
+- Stub backend runs on dedicated port **8082** so it cannot accidentally use the regular Library backend on port 8080
 
 The Spring Boot controller returns deterministic teaching responses based only on the request values.
 
@@ -24,17 +25,18 @@ Start both applications, then open only the frontend home page:
 
 The presenter should not copy or type separate scenario URLs.
 
-The frontend home page now shows an **Error Handling Techniques** index. The classroom navigation is:
+The frontend home page shows an **Error Handling Techniques** index. The classroom navigation is:
 
 1. Choose an error-handling technique from the index.
 2. The technique page explains the error/condition and expected handled result.
 3. Click **Without Error Handling**.
 4. Run the preloaded scenario and discuss the poor user experience.
-5. Return to the technique page.
-6. Click **With Error Handling**.
-7. Run the same preloaded scenario and compare the corrected behaviour.
-8. Use **Switch to ...** if a direct A/B comparison is useful.
-9. Use **Error Handling Techniques** to return to the index.
+5. Correct the field that actually triggers the scenario and submit again when demonstrating recovery.
+6. Return to the technique page.
+7. Click **With Error Handling**.
+8. Run the same preloaded scenario and compare the corrected behaviour.
+9. Use **Switch to ...** if a direct A/B comparison is useful.
+10. Use **Error Handling Techniques** to return to the index.
 
 The internal links preserve the selected technique automatically. Students and presenters do not need to know the query-string URLs.
 
@@ -61,6 +63,20 @@ The scenario data is preloaded by the selected technique page. The backend contr
 
 For the network-failure exercise, both pages intentionally call the same unreachable teaching endpoint so no HTTP response is received.
 
+## Correcting a scenario
+
+The error is produced by a specific trigger. Correct that trigger before expecting success:
+
+- Client-Side Validation: enter a non-blank **Book Title**; the preloaded accession number is already valid.
+- Backend Validation 400: correct **Accession Number** from `BAD-2103` to a value such as `ACC-2103`.
+- Duplicate 409: change **Accession Number** from `ACC-0001` to another valid value such as `ACC-2201`.
+- Session Expired 401: change **Book Title** from `SESSION EXPIRED` to a normal title.
+- Forbidden 403: change **Book Title** from `FORBIDDEN BOOK` to a normal title.
+- Not Found 404: change **Book Title** from `MISSING BOOK` to a normal title.
+- Server Error 500: change **Book Title** from `SERVER ERROR` to a normal title.
+- Slow Response: change **Book Title** from `SLOW BOOK` to a normal title to remove the artificial delay.
+- Network Failure: changing form fields cannot fix the exercise because the endpoint is intentionally unreachable.
+
 ## Stub trigger values
 
 - Missing title -> HTTP 400 if the request reaches the backend; the handled client-validation page stops before the request
@@ -80,7 +96,7 @@ cd error-handling-demo/backend
 mvn spring-boot:run
 ```
 
-Backend: `http://localhost:8080`
+Stub backend: `http://localhost:8082`
 
 ## Run the frontend
 
@@ -92,4 +108,4 @@ npm run dev
 
 Frontend home page: `http://localhost:5173`
 
-Vite proxies `/rest` to the Spring Boot stub backend.
+Vite proxies `/rest` only to the Spring Boot stub backend on port **8082**.
